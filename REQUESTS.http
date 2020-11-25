@@ -30,6 +30,7 @@ POST /add-movie
   "rating": "7.3",
   "votes": "680,890",
   "production": "Marvel Films, Laura Ziskin Productions",
+  "trailer": "", // YouTube Link to trailer
   "likes": 0, // default - NOT INCLUDED IN REQUEST
   "dislikes": 0, // default - NOT INCLUDED IN REQUEST
   "reviews": [], // default - NOT INCLUDED IN REQUEST
@@ -72,6 +73,7 @@ POST /dislike
 
 GET /movie?title=spider-man
 {
+  
 }
 
 
