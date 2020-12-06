@@ -12,10 +12,11 @@ class IMDBNavbar extends Component {
 				<Row>
 					<Col>
 						<Row>
-							<Col lg={2}>
-								<IMDBLogo className="p-0 m-0 w-100 h-100" />
+							<Col lg={3} className="align-items-center">
+								{/* <IMDBLogo className="p-0 m-0 w-100 h-100" /> */}
+								<h3 className="m-0">MESMovies</h3>
 							</Col>
-							<Col lg={10} className="my-auto">
+							<Col lg={9} className="my-auto">
 								<InputGroup>
 									<FormControl
 										placeholder="Search for Movies, TV Shows and more.."
@@ -37,11 +38,12 @@ class IMDBNavbar extends Component {
 						</Row>
 					</Col>
 					<Col className="d-flex align-items-center justify-content-end">
-						<Row className="align-items-center">
-							<p className="font-weight-bold p-0 m-0 mr-5">Home</p>
-							<p className="font-weight-bold p-0 m-0 mr-5">Add a Movie</p>
+						<Row className="align-items-center w-100 justify-content-end">
+							<p className="p-0 m-0 mr-5">Home</p>
+							<p className="p-0 m-0 mr-5">Add a Movie</p>
 							<Button
 								style={{
+									width: '20%',
 									backgroundColor: COLORS.primary,
 									color: 'black',
 									border: `1px solid ${COLORS.primary}`

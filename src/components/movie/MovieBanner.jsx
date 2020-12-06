@@ -1,9 +1,10 @@
 import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { COLORS } from '../../colors';
-import { Card } from '@material-ui/core';
-import CardContent from '@material-ui/core/CardContent';
+import { Card, CardContent, CardActions, Button } from '@material-ui/core';
 import RatingCircle from './RatingCircle';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faComment } from '@fortawesome/free-solid-svg-icons';
 
 class MovieBanner extends React.Component {
 	constructor(props) {
@@ -88,9 +89,9 @@ class MovieBanner extends React.Component {
 								</Col>
 							</Row>
 						</Col>
-						<Col className="" xl={4}>
-							<Row className="justify-content-center h-100 py-4">
-								<Card className="w-75" style={{ backgroundColor: COLORS.white }}>
+						<Col xl={4}>
+							<Row className="justify-content-center py-4">
+								<Card className="w-75" style={{ backgroundColor: COLORS.white }} elevation={3}>
 									<CardContent>
 										<Row className="justify-content-center">
 											<RatingCircle
@@ -109,6 +110,24 @@ class MovieBanner extends React.Component {
 											<h5>{movieDetails.imdbVotes} Ratings</h5>
 										</Row>
 									</CardContent>
+									<CardActions>
+										<Container className="mb-3">
+											<Row className="justify-content-center">
+												<Button
+													startIcon={<FontAwesomeIcon icon={faComment} />}
+													size="large"
+													variant="contained"
+													style={{
+														backgroundColor: '#1a1a1a',
+														color: 'white',
+														fontWeight: 'bold'
+													}}
+												>
+													write a review
+												</Button>
+											</Row>
+										</Container>
+									</CardActions>
 								</Card>
 							</Row>
 						</Col>

@@ -16,7 +16,7 @@ class App extends React.Component {
 		config();
 		//  GET the IMDB movie data
 		const url = new URL('http://www.omdbapi.com/');
-		const params = { t: 'Spider-Man 2', apiKey: process.env.REACT_APP_OMDB_API_KEY };
+		const params = { t: 'Spider-Man', apiKey: process.env.REACT_APP_OMDB_API_KEY, plot: 'short' };
 		Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]));
 		fetch(url.toString(), {
 			method: 'GET',
