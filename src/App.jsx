@@ -3,6 +3,7 @@ import IMDBNavbar from './components/nav/IMDBNavbar';
 import MovieBanner from './components/movie/MovieBanner';
 import MovieDetail from './components/movie/MovieDetail';
 import { config } from 'dotenv';
+import { Container } from 'react-bootstrap';
 
 class App extends React.Component {
 	constructor(props) {
@@ -28,11 +29,11 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<React.Fragment>
+			<Container fluid style={{ background: 'rgba(234, 204, 83, 0.1)' }}>
 				<IMDBNavbar />
 				<MovieBanner movieDetails={this.state.movieDetails} />
 				<MovieDetail movieDetails={this.state.movieDetails} />
-			</React.Fragment>
+			</Container>
 		);
 	}
 }

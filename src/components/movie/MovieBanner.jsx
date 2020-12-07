@@ -5,14 +5,19 @@ import { Card, CardContent, CardActions, Button } from '@material-ui/core';
 import RatingCircle from './RatingCircle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment } from '@fortawesome/free-solid-svg-icons';
+import ReviewModal from '../review/ReviewModal';
 
 class MovieBanner extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			height: '0',
-			width: '0'
+			width: '0',
+			showReview: false,
+			review: null
 		};
+		this.setShowReview = this.setShowReview.bind(this);
+		this.setReview = this.setReview.bind(this);
 	}
 
 	componentDidMount() {
@@ -22,10 +27,25 @@ class MovieBanner extends React.Component {
 		});
 	}
 
+	setShowReview() {
+		this.setState({ showReview: !this.state.showReview });
+	}
+
+	setReview(review) {
+		this.setState({ review });
+	}
+
 	render() {
 		const movieDetails = this.props.movieDetails;
 		return (
 			<Container>
+				<ReviewModal
+					show={this.state.showReview}
+					onHide={this.setShowReview}
+					keyboard={false}
+					backdrop="static"
+					setReview={(review) => this.setReview(review)}
+				/>
 				{movieDetails ? (
 					<Row className="pb-5 pt-3 justify-content-between">
 						<Col xl={8}>
@@ -38,7 +58,8 @@ class MovieBanner extends React.Component {
 										style={{
 											border: `2px solid ${COLORS.secondary}`,
 											borderRadius: 10,
-											backgroundColor: 'white'
+											color: 'white',
+											backgroundColor: COLORS.secondary
 										}}
 										className="justify-content-center mx-5 py-1 font-weight-bolder"
 									>
@@ -122,8 +143,9 @@ class MovieBanner extends React.Component {
 														color: 'white',
 														fontWeight: 'bold'
 													}}
+													onClick={this.setShowReview}
 												>
-													write a review
+													{this.state.review ? 'edit your review' : 'write a review'}
 												</Button>
 											</Row>
 										</Container>
