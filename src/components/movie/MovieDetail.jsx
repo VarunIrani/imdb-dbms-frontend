@@ -4,7 +4,6 @@ import Tab from '@material-ui/core/Tab';
 import React from 'react';
 import { COLORS } from '../../colors';
 import Cast from './details/Cast';
-import MovieMedia from './details/MovieMedia';
 import OtherInfo from './details/OtherInfo';
 import Reviews from './details/Reviews';
 import Storyline from './details/Storyline';
@@ -21,10 +20,6 @@ const MovieTabs = [
 	{
 		title: 'Cast',
 		component: <Cast />
-	},
-	{
-		title: 'Videos & Photos',
-		component: <MovieMedia />
 	},
 	{
 		title: 'Other Info',
@@ -91,7 +86,13 @@ class MovieDetail extends React.Component {
 						))}
 					</Tabs>
 					{MovieTabs.map((tab, index) => (
-						<TabPanel key={index} value={value} index={index} style={{ backgroundColor: COLORS.white }}>
+						<TabPanel
+							key={index}
+							value={value}
+							index={index}
+							style={{ backgroundColor: COLORS.grey }}
+							className="mx-n3"
+						>
 							{tab.component}
 						</TabPanel>
 					))}

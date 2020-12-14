@@ -27,8 +27,6 @@ POST /add-movie
   "country": "USA",
   "awards": "Nominated for 2 Oscars. Another 16 wins & 61 nominations.",
   "poster": "image",
-  "rating": "7.3",
-  "votes": "680,890",
   "production": "Marvel Films, Laura Ziskin Productions",
   "trailer": "", // YouTube Link to trailer
   "likes": 0, // default - NOT INCLUDED IN REQUEST
@@ -55,7 +53,7 @@ POST /review
 {
   "movieId": "", // Movie ID - append this review in reviews list of movie
   "userId": "", // User ID
-  "review": "User's point of view of the movie",
+  "comment": "User's point of view of the movie",
   "rating": "5.5" // score out of 10
 }
 

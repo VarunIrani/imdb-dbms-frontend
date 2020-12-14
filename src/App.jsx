@@ -17,7 +17,7 @@ class App extends React.Component {
 		config();
 		//  GET the IMDB movie data
 		const url = new URL('http://www.omdbapi.com/');
-		const params = { t: 'Spider-Man', apiKey: process.env.REACT_APP_OMDB_API_KEY, plot: 'short' };
+		const params = { t: 'bruce almighty', apiKey: process.env.REACT_APP_OMDB_API_KEY, plot: 'short' };
 		Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]));
 		fetch(url.toString(), {
 			method: 'GET',
@@ -29,7 +29,7 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<Container fluid style={{ background: 'rgba(234, 204, 83, 0.1)' }}>
+			<Container fluid>
 				<IMDBNavbar />
 				<MovieBanner movieDetails={this.state.movieDetails} />
 				<MovieDetail movieDetails={this.state.movieDetails} />

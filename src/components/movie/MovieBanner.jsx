@@ -42,8 +42,6 @@ class MovieBanner extends React.Component {
 				<ReviewModal
 					show={this.state.showReview}
 					onHide={this.setShowReview}
-					keyboard={false}
-					backdrop="static"
 					setReview={(review) => this.setReview(review)}
 				/>
 				{movieDetails ? (

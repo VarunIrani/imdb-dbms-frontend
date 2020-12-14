@@ -17,17 +17,15 @@ export default class ReviewModal extends Component {
 	}
 
 	setRating() {
-		this.setState({
-			review: { ...this.state.review, rating: document.querySelectorAll('.MuiRating-iconFilled').length / 2 }
-		});
+		const r = this.state.review;
+		r.rating = document.querySelectorAll('.MuiRating-iconFilled').length;
+		this.setState({ review: r });
 	}
 
 	submitReview() {
 		let errors = [];
 		if (this.state.review.rating > 0) {
-			const review = { rating: this.state.rating, comments: this.comments.value };
-			this.setState({ review });
-			this.props.setReview(review);
+			this.props.setReview(this.state.review);
 			this.props.onHide();
 		} else {
 			errors.push({ message: 'Please give a rating of at least 1' });
@@ -36,12 +34,21 @@ export default class ReviewModal extends Component {
 	}
 
 	handleCommentsChange() {
-		this.setState({ review: { ...this.state.review, comments: this.comments.value } });
+		const r = this.state.review;
+		r.comments = this.comments.value;
+		this.setState({ review: r });
 	}
 
 	render() {
 		return (
-			<Modal aria-labelledby="contained-modal-title-vcenter" centered {...this.props}>
+			<Modal
+				aria-labelledby="contained-modal-title-vcenter"
+				centered
+				keyboard={false}
+				backdrop="static"
+				show={this.props.show}
+				onHide={this.props.onHide}
+			>
 				<Modal.Header closeButton>
 					<Modal.Title id="contained-modal-title-vcenter">Write A Review</Modal.Title>
 				</Modal.Header>
@@ -59,7 +66,6 @@ export default class ReviewModal extends Component {
 									onChange={this.setRating}
 									value={this.state.review.rating}
 									name="rating"
-									precision={0.5}
 								/>
 							</Col>
 							<Col />
