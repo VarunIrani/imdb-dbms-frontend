@@ -1,18 +1,22 @@
+import React from 'react';
+import Home from './views/Home';
+import Movie from './views/Movie';
+
 export const ROUTES = [
 	{
 		name: 'Home',
-		path: '/home',
-		component: null
+		path: '/',
+		component: <Home />
 	},
 	{
 		name: 'Add a Movie',
-		path: '/add',
+		path: '/',
 		component: null
 	},
 	{
 		name: 'Movie',
 		path: '/movie',
-		component: null
+		component: <Movie />
 	},
 	{
 		name: 'Search',

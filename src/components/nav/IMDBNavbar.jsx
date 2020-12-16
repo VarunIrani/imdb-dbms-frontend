@@ -2,6 +2,7 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import React, { Component } from 'react';
 import { Button, Col, Row } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { COLORS } from '../../colors';
 import AddMovie from './AddMovie';
 class IMDBNavbar extends Component {
@@ -72,7 +73,9 @@ class IMDBNavbar extends Component {
 						</Col>
 						<Col className="d-flex align-items-center justify-content-end">
 							<Row className="align-items-center w-100 justify-content-end">
-								<p className="p-0 m-0 mr-5">Home</p>
+								<Link to="/" style={{ textDecoration: 'none', color: 'black' }}>
+									<p className="p-0 m-0 mr-5">Home</p>
+								</Link>
 								<p
 									style={{ cursor: 'pointer' }}
 									className="p-0 m-0 mr-5"
