@@ -48,7 +48,9 @@ class IMDBNavbar extends Component {
 							<Row className="align-items-center">
 								<Col lg={3} className="align-items-center">
 									{/* <IMDBLogo className="p-0 m-0 w-100 h-100" /> */}
-									<h3 className="m-0">MESMovies</h3>
+									<Link to="/" style={{ textDecoration: 'none', color: 'black' }}>
+										<h3 className="m-0">MESMovies</h3>
+									</Link>
 								</Col>
 								<Col lg={9} className="my-auto">
 									<Autocomplete

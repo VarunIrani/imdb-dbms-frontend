@@ -28,7 +28,7 @@ export default class Home extends Component {
 
 	render() {
 		return this.state.movies ? (
-			<MovieCards movieDetails={this.state.movies} />
+			<MovieCards movies={this.state.movies} />
 		) : (
 			<Container>
 				<Row>
