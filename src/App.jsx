@@ -3,7 +3,7 @@ import IMDBNavbar from './components/nav/IMDBNavbar';
 import MovieBanner from './components/movie/MovieBanner';
 import MovieDetail from './components/movie/MovieDetail';
 import { config } from 'dotenv';
-import { Container } from 'react-bootstrap';
+import MovieCards from './components/movie/MovieCards';
 
 class App extends React.Component {
 	constructor(props) {
@@ -17,7 +17,7 @@ class App extends React.Component {
 		config();
 		//  GET the IMDB movie data
 		const url = new URL('http://www.omdbapi.com/');
-		const params = { t: 'avengers', apiKey: process.env.REACT_APP_OMDB_API_KEY, plot: 'short' };
+		const params = { t: 'Game of thrones', apiKey: process.env.REACT_APP_OMDB_API_KEY };
 		Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]));
 		fetch(url.toString(), {
 			method: 'GET',
@@ -29,11 +29,12 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<Container fluid>
+			<React.Fragment>
 				<IMDBNavbar />
 				<MovieBanner movieDetails={this.state.movieDetails} />
 				<MovieDetail movieDetails={this.state.movieDetails} />
-			</Container>
+				<MovieCards movieDetails={this.state.movieDetails}/>
+			</React.Fragment>
 		);
 	}
 }

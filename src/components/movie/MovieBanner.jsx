@@ -37,6 +37,7 @@ class MovieBanner extends React.Component {
 
 	render() {
 		const movieDetails = this.props.movieDetails;
+		// console.log(movieDetails.Title)
 		return (
 			<Container>
 				<ReviewModal

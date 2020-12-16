@@ -27,3 +27,7 @@
 .page-item > .page-link {
 	color: #000 !important;
 }
+
+Card{
+	padding-left: 50;
+}
