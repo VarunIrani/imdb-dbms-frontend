@@ -17,3 +17,7 @@
 	background-color: #eacc53 !important;
 	height: 0.2em !important;
 }
+
+Card{
+	padding-left: 50;
+}
