@@ -5,6 +5,9 @@ import { Card, CardDeck, Container, Row } from 'react-bootstrap';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { COLORS } from '../../colors';
+import { Button } from '@material-ui/core';
+import TrailerModal from './TrailerModal';
+import { Link } from 'react-router-dom';
 
 const responsive = {
 	superLargeDesktop: {
@@ -30,15 +33,26 @@ const titles = [ 'All Movies', 'Top Rated' ];
 class MovieCards extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			movie: null,
+			trailerShow: false
+		};
+		this.onTrailerHide = this.onTrailerHide.bind(this);
 	}
 
+	onTrailerHide = (movie) => {
+		this.setState({ trailerShow: !this.state.trailerShow, movie });
+	};
+
 	render() {
-		const movieDetails = this.props.movieDetails;
+		const movies = this.props.movies;
 		return (
-			<div>
+			<React.Fragment>
+				{this.state.movie ? (
+					<TrailerModal movie={this.state.movie} show={this.state.trailerShow} onHide={this.onTrailerHide} />
+				) : null}
 				{titles.map((value, index) => (
-					<Container style={{ marginTop: 50 }}>
+					<Container style={{ marginTop: 50 }} key={index}>
 						<Row className="mb-4">
 							<h2
 								style={{
@@ -51,35 +65,50 @@ class MovieCards extends Component {
 								{value}
 							</h2>
 						</Row>
-						{movieDetails ? (
+						{movies ? (
 							<Carousel responsive={responsive}>
 								<CardDeck>
-									{movieDetails.map((movie, i) => (
+									{movies.map((movie, i) => (
 										<Card key={i}>
-											<Card.Img variant="top" src={movie.poster} />
+											<Link to={`/movie?title=${movie.title}`}>
+												<Card.Img variant="top" src={movie.poster} />
+											</Link>
 											<Card.Body>
-												<Card.Title>{movie.title}</Card.Title>
-												<Row className="ml-1">
-													{movie.rating ? (
-														<React.Fragment>
-															<FontAwesomeIcon
-																icon={faStar}
-																style={{ color: COLORS.primary }}
-															/>
-															<Card.Subtitle className="text-black p-0 m-0 pl-2">
-																{movie.rating}
-															</Card.Subtitle>{' '}
-														</React.Fragment>
-													) : (
-														'No ratings yet'
-													)}
-												</Row>
+												<Container>
+													<Row>{movie.title}</Row>
+													<Row className="mt-2">
+														{movie.rating ? (
+															<React.Fragment>
+																<FontAwesomeIcon
+																	icon={faStar}
+																	style={{ color: COLORS.primary }}
+																/>
+																<Card.Subtitle className="text-black p-0 m-0 pl-2">
+																	{movie.rating}
+																</Card.Subtitle>{' '}
+															</React.Fragment>
+														) : (
+															'No ratings yet'
+														)}
+													</Row>
+												</Container>
 											</Card.Body>
 											<Card.Footer>
-												<Row className="justify-content-center">
-													<FontAwesomeIcon icon={faPlay} style={{ color: COLORS.primary }} />
-													<h6 className="text-black pl-3">Watch Trailer</h6>
-												</Row>
+												<Container fluid>
+													<Row className="justify-content-center">
+														<Button
+															startIcon={
+																<FontAwesomeIcon
+																	icon={faPlay}
+																	style={{ color: COLORS.primary }}
+																/>
+															}
+															onClick={() => this.onTrailerHide(movie)}
+														>
+															Watch Trailer
+														</Button>
+													</Row>
+												</Container>
 											</Card.Footer>
 										</Card>
 									))}
@@ -90,7 +119,7 @@ class MovieCards extends Component {
 						)}
 					</Container>
 				))}
-			</div>
+			</React.Fragment>
 		);
 	}
 }
