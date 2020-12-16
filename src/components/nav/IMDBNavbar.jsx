@@ -1,16 +1,37 @@
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import React, { Component } from 'react';
-import { Button, Col, FormControl, InputGroup, Row } from 'react-bootstrap';
+import { Button, Col, Row } from 'react-bootstrap';
 import { COLORS } from '../../colors';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import AddMovie from './AddMovie';
 class IMDBNavbar extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			showAddMovie: false
+			showAddMovie: false,
+			movies: [],
+			search: ''
 		};
+
+		this.handleChange = this.handleChange.bind(this);
 	}
+
+	handleChange(e) {
+		fetch(`https://mesmovies.herokuapp.com/get-movie-minified?title=${e.target.value}`, {
+			mode: 'cors',
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				this.setState({
+					movies: res.filter((e, i) => i < 5).sort((a, b) => a.title.charCodeAt(0) - b.title.charCodeAt(0))
+				});
+			});
+	}
+
 	render() {
 		return (
 			<React.Fragment>
@@ -23,29 +44,29 @@ class IMDBNavbar extends Component {
 				<div className="px-5 py-4">
 					<Row>
 						<Col>
-							<Row>
+							<Row className="align-items-center">
 								<Col lg={3} className="align-items-center">
 									{/* <IMDBLogo className="p-0 m-0 w-100 h-100" /> */}
 									<h3 className="m-0">MESMovies</h3>
 								</Col>
 								<Col lg={9} className="my-auto">
-									<InputGroup>
-										<FormControl
-											placeholder="Search for Movies, TV Shows and more.."
-											aria-label="Search"
-											aria-describedby="search-bar"
-										/>
-										<InputGroup.Append>
-											<Button
-												style={{
-													backgroundColor: COLORS.primary,
-													border: `1px solid ${COLORS.primary}`
-												}}
-											>
-												<FontAwesomeIcon icon={faSearch} />
-											</Button>
-										</InputGroup.Append>
-									</InputGroup>
+									<Autocomplete
+										autoComplete={true}
+										id="combo-box-demo"
+										options={this.state.movies}
+										noOptionsText="Search found no results"
+										getOptionLabel={(option) => option.title}
+										renderInput={(params) => (
+											<TextField
+												{...params}
+												size="small"
+												label="Search MESMovies"
+												variant="outlined"
+												onChange={(e) => this.handleChange(e)}
+												onClick={(e) => this.handleChange(e)}
+											/>
+										)}
+									/>
 								</Col>
 							</Row>
 						</Col>
