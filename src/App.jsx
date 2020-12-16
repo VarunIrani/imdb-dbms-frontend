@@ -1,40 +1,30 @@
 import React from 'react';
 import IMDBNavbar from './components/nav/IMDBNavbar';
-import MovieBanner from './components/movie/MovieBanner';
-import MovieDetail from './components/movie/MovieDetail';
-import { config } from 'dotenv';
-import MovieCards from './components/movie/MovieCards';
+import { ROUTES } from './routes';
+import { Switch, Route, HashRouter as Router } from 'react-router-dom';
 
 class App extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			movieDetails: null
-		};
-	}
-
-	componentDidMount() {
-		config();
-		//  GET the IMDB movie data
-		const url = new URL('http://www.omdbapi.com/');
-		const params = { t: 'Game of thrones', apiKey: process.env.REACT_APP_OMDB_API_KEY };
-		Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]));
-		fetch(url.toString(), {
-			method: 'GET',
-			mode: 'cors' // Cross-Origin-Resource-Sharing
-		})
-			.then((response) => response.json())
-			.then((response) => this.setState({ movieDetails: response }));
+	getRoutes(routes) {
+		return routes.map(
+			(prop, key) =>
+				prop.path === '/' ? (
+					<Route exact path={prop.path} key={key}>
+						{prop.component}
+					</Route>
+				) : (
+					<Route path={prop.path} key={key}>
+						{prop.component}
+					</Route>
+				)
+		);
 	}
 
 	render() {
 		return (
-			<React.Fragment>
+			<Router basename="/">
 				<IMDBNavbar />
-				<MovieBanner movieDetails={this.state.movieDetails} />
-				<MovieDetail movieDetails={this.state.movieDetails} />
-				<MovieCards movieDetails={this.state.movieDetails}/>
-			</React.Fragment>
+				<Switch>{this.getRoutes(ROUTES)}</Switch>
+			</Router>
 		);
 	}
 }

@@ -1,202 +1,98 @@
-import React, { Component } from 'react';
-import {Card,CardDeck,Row,CardGroup,CardImg,CardImgProps,CardProps, Container} from 'react-bootstrap'
-import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
+import { faPlay, faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar,faPlay,faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import React, { Component } from 'react';
+import { Card, CardDeck, Container, Row } from 'react-bootstrap';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 import { COLORS } from '../../colors';
 
 const responsive = {
-    superLargeDesktop: {
-      // the naming can be any, depends on you.
-      breakpoint: { max: 4000, min: 3000 },
-      items: 1
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 1
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 1
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1
-    }
-  };
-const titles = ['In theatres','Most watched','Top rated']
-
+	superLargeDesktop: {
+		// the naming can be any, depends on you.
+		breakpoint: { max: 4000, min: 3000 },
+		items: 1
+	},
+	desktop: {
+		breakpoint: { max: 3000, min: 1024 },
+		items: 1
+	},
+	tablet: {
+		breakpoint: { max: 1024, min: 464 },
+		items: 1
+	},
+	mobile: {
+		breakpoint: { max: 464, min: 0 },
+		items: 1
+	}
+};
+const titles = [ 'All Movies', 'Top Rated' ];
 
 class MovieCards extends Component {
-    constructor(props) {
+	constructor(props) {
 		super(props);
-		this.state = {
-		};
+		this.state = {};
 	}
 
-    
-
-    render() { 
-        const movieDetails = this.props.movieDetails;
-        console.log(movieDetails);
-        return ( 
-            <div>
-            {titles.map((value,index)=>(
-
-            <Container style={{marginTop:50}}>
-            <Row>
-            <h1 style={{borderLeftStyle:'solid',borderLeftColor:COLORS.primary,borderWidth:5,paddingLeft:8,paddingRight:8}}>{value}</h1>
-            <FontAwesomeIcon className="p-0 m-0" icon={faAngleRight} style={{color: 'black'}} size='3x'/>
-            </Row>
-            {movieDetails?(
-
-            <Carousel responsive={responsive}>
-<CardDeck>
-  <Card>
-    <Card.Img variant="top" src={movieDetails.Poster} />
-    <Card.Body>
-      <Card.Title>{movieDetails.Title}</Card.Title>
-      <Row>
-      <FontAwesomeIcon icon={faStar} style={{color: COLORS.primary}}/>
-      <Card.Subtitle className="text-muted p-0 m-0 pl-2">{movieDetails.imdbRating}</Card.Subtitle>
-      </Row>
-    </Card.Body>
-    <Card.Footer>
-    <Row className="justify-content-center">
-    <FontAwesomeIcon icon={faPlay} style={{color: COLORS.primary}}/>
-      <small className="text-muted pl-2">Watch Trailer</small>
-      </Row>
-    </Card.Footer>
-  </Card>
-  <Card>
-    <Card.Img variant="top" src={movieDetails.Poster} />
-    <Card.Body>
-      <Card.Title>{movieDetails.Title}</Card.Title>
-      <Row>
-      <FontAwesomeIcon icon={faStar} style={{color: COLORS.primary}}/>
-      <Card.Subtitle className="text-muted p-0 m-0 pl-2">{movieDetails.imdbRating}</Card.Subtitle>
-      </Row>
-    </Card.Body>
-    <Card.Footer>
-    <Row className="justify-content-center">
-    <FontAwesomeIcon icon={faPlay} style={{color: COLORS.primary}}/>
-      <small className="text-muted pl-2">Watch Trailer</small>
-      </Row>
-    </Card.Footer>
-  </Card>
-  <Card>
-    <Card.Img variant="top" src={movieDetails.Poster} />
-    <Card.Body>
-      <Card.Title>{movieDetails.Title}</Card.Title>
-      <Row>
-      <FontAwesomeIcon icon={faStar} style={{color: COLORS.primary}}/>
-      <Card.Subtitle className="text-muted p-0 m-0 pl-2">{movieDetails.imdbRating}</Card.Subtitle>
-      </Row>
-    </Card.Body>
-    <Card.Footer>
-    <Row className="justify-content-center">
-    <FontAwesomeIcon icon={faPlay} style={{color: COLORS.primary}}/>
-      <small className="text-muted pl-2">Watch Trailer</small>
-      </Row>
-    </Card.Footer>
-  </Card>
-  <Card>
-    <Card.Img variant="top" src={movieDetails.Poster} />
-    <Card.Body>
-      <Card.Title>{movieDetails.Title}</Card.Title>
-      <Row>
-      <FontAwesomeIcon icon={faStar} style={{color: COLORS.primary}}/>
-      <Card.Subtitle className="text-muted p-0 m-0 pl-2">{movieDetails.imdbRating}</Card.Subtitle>
-      </Row>
-    </Card.Body>
-    <Card.Footer>
-    <Row className="justify-content-center">
-    <FontAwesomeIcon icon={faPlay} style={{color: COLORS.primary}}/>
-      <small className="text-muted pl-2">Watch Trailer</small>
-      </Row>
-    </Card.Footer>
-  </Card>
-</CardDeck>
-
-
-
-<CardDeck>
-  <Card>
-    <Card.Img variant="top" src={movieDetails.Poster} />
-    <Card.Body>
-      <Card.Title>{movieDetails.Title}</Card.Title>
-      <Row>
-      <FontAwesomeIcon icon={faStar} style={{color: COLORS.primary}}/>
-      <Card.Subtitle className="text-muted p-0 m-0 pl-2">{movieDetails.imdbRating}</Card.Subtitle>
-      </Row>
-    </Card.Body>
-    <Card.Footer>
-    <Row className="justify-content-center">
-    <FontAwesomeIcon icon={faPlay} style={{color: COLORS.primary}}/>
-      <small className="text-muted pl-2">Watch Trailer</small>
-      </Row>
-    </Card.Footer>
-  </Card>
-  <Card>
-    <Card.Img variant="top" src={movieDetails.Poster} />
-    <Card.Body>
-      <Card.Title>{movieDetails.Title}</Card.Title>
-      <Row>
-      <FontAwesomeIcon icon={faStar} style={{color: COLORS.primary}}/>
-      <Card.Subtitle className="text-muted p-0 m-0 pl-2">{movieDetails.imdbRating}</Card.Subtitle>
-      </Row>
-    </Card.Body>
-    <Card.Footer>
-    <Row className="justify-content-center">
-    <FontAwesomeIcon icon={faPlay} style={{color: COLORS.primary}}/>
-      <small className="text-muted pl-2">Watch Trailer</small>
-      </Row>
-    </Card.Footer>
-  </Card>
-  <Card>
-    <Card.Img variant="top" src={movieDetails.Poster} />
-    <Card.Body>
-      <Card.Title>{movieDetails.Title}</Card.Title>
-      <Row>
-      <FontAwesomeIcon icon={faStar} style={{color: COLORS.primary}}/>
-      <Card.Subtitle className="text-muted p-0 m-0 pl-2">{movieDetails.imdbRating}</Card.Subtitle>
-      </Row>
-    </Card.Body>
-    <Card.Footer>
-    <Row className="justify-content-center">
-    <FontAwesomeIcon icon={faPlay} style={{color: COLORS.primary}}/>
-      <small className="text-muted pl-2">Watch Trailer</small>
-      </Row>
-    </Card.Footer>
-  </Card>
-  <Card>
-    <Card.Img variant="top" src={movieDetails.Poster} />
-    <Card.Body>
-      <Card.Title>{movieDetails.Title}</Card.Title>
-      <Row>
-      <FontAwesomeIcon icon={faStar} style={{color: COLORS.primary}}/>
-      <Card.Subtitle className="text-muted p-0 m-0 pl-2">{movieDetails.imdbRating}</Card.Subtitle>
-      </Row>
-    </Card.Body>
-    <Card.Footer>
-    <Row className="justify-content-center">
-    <FontAwesomeIcon icon={faPlay} style={{color: COLORS.primary}}/>
-      <small className="text-muted pl-2">Watch Trailer</small>
-      </Row>
-    </Card.Footer>
-  </Card>
-</CardDeck>
-
-
-</Carousel>
-            ):(<h1>Loading</h1>)}
-</Container>
-            ))}
-            </div>
-
-         );
-    }
+	render() {
+		const movieDetails = this.props.movieDetails;
+		return (
+			<div>
+				{titles.map((value, index) => (
+					<Container style={{ marginTop: 50 }}>
+						<Row className="mb-4">
+							<h2
+								style={{
+									borderLeftStyle: 'solid',
+									borderLeftColor: COLORS.primary,
+									borderWidth: 5
+								}}
+								className="pl-4"
+							>
+								{value}
+							</h2>
+						</Row>
+						{movieDetails ? (
+							<Carousel responsive={responsive}>
+								<CardDeck>
+									{movieDetails.map((movie, i) => (
+										<Card key={i}>
+											<Card.Img variant="top" src={movie.poster} />
+											<Card.Body>
+												<Card.Title>{movie.title}</Card.Title>
+												<Row className="ml-1">
+													{movie.rating ? (
+														<React.Fragment>
+															<FontAwesomeIcon
+																icon={faStar}
+																style={{ color: COLORS.primary }}
+															/>
+															<Card.Subtitle className="text-black p-0 m-0 pl-2">
+																{movie.rating}
+															</Card.Subtitle>{' '}
+														</React.Fragment>
+													) : (
+														'No ratings yet'
+													)}
+												</Row>
+											</Card.Body>
+											<Card.Footer>
+												<Row className="justify-content-center">
+													<FontAwesomeIcon icon={faPlay} style={{ color: COLORS.primary }} />
+													<h6 className="text-black pl-3">Watch Trailer</h6>
+												</Row>
+											</Card.Footer>
+										</Card>
+									))}
+								</CardDeck>
+							</Carousel>
+						) : (
+							<h1>Loading</h1>
+						)}
+					</Container>
+				))}
+			</div>
+		);
+	}
 }
- 
+
 export default MovieCards;

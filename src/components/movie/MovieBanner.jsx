@@ -1,17 +1,23 @@
 import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { COLORS } from '../../colors';
-import { Card } from '@material-ui/core';
-import CardContent from '@material-ui/core/CardContent';
+import { Card, CardContent, CardActions, Button } from '@material-ui/core';
 import RatingCircle from './RatingCircle';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faComment } from '@fortawesome/free-solid-svg-icons';
+import ReviewModal from '../review/ReviewModal';
 
 class MovieBanner extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			height: '0',
-			width: '0'
+			width: '0',
+			showReview: false,
+			review: null
 		};
+		this.setShowReview = this.setShowReview.bind(this);
+		this.setReview = this.setReview.bind(this);
 	}
 
 	componentDidMount() {
@@ -21,11 +27,24 @@ class MovieBanner extends React.Component {
 		});
 	}
 
+	setShowReview() {
+		this.setState({ showReview: !this.state.showReview });
+	}
+
+	setReview(review) {
+		this.setState({ review });
+	}
+
 	render() {
 		const movieDetails = this.props.movieDetails;
 		// console.log(movieDetails.Title)
 		return (
 			<Container>
+				<ReviewModal
+					show={this.state.showReview}
+					onHide={this.setShowReview}
+					setReview={(review) => this.setReview(review)}
+				/>
 				{movieDetails ? (
 					<Row className="pb-5 pt-3 justify-content-between">
 						<Col xl={8}>
@@ -38,7 +57,8 @@ class MovieBanner extends React.Component {
 										style={{
 											border: `2px solid ${COLORS.secondary}`,
 											borderRadius: 10,
-											backgroundColor: 'white'
+											color: 'white',
+											backgroundColor: COLORS.secondary
 										}}
 										className="justify-content-center mx-5 py-1 font-weight-bolder"
 									>
@@ -89,9 +109,9 @@ class MovieBanner extends React.Component {
 								</Col>
 							</Row>
 						</Col>
-						<Col className="" xl={4}>
-							<Row className="justify-content-center h-100 py-4">
-								<Card className="w-75" style={{ backgroundColor: COLORS.white }}>
+						<Col xl={4}>
+							<Row className="justify-content-center py-4">
+								<Card className="w-75" style={{ backgroundColor: COLORS.white }} elevation={3}>
 									<CardContent>
 										<Row className="justify-content-center">
 											<RatingCircle
@@ -110,6 +130,25 @@ class MovieBanner extends React.Component {
 											<h5>{movieDetails.imdbVotes} Ratings</h5>
 										</Row>
 									</CardContent>
+									<CardActions>
+										<Container className="mb-3">
+											<Row className="justify-content-center">
+												<Button
+													startIcon={<FontAwesomeIcon icon={faComment} />}
+													size="large"
+													variant="contained"
+													style={{
+														backgroundColor: '#1a1a1a',
+														color: 'white',
+														fontWeight: 'bold'
+													}}
+													onClick={this.setShowReview}
+												>
+													{this.state.review ? 'edit your review' : 'write a review'}
+												</Button>
+											</Row>
+										</Container>
+									</CardActions>
 								</Card>
 							</Row>
 						</Col>

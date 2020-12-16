@@ -1,49 +1,29 @@
-import React from 'react';
 import { AppBar, Tabs } from '@material-ui/core';
-import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
+import Tab from '@material-ui/core/Tab';
+import React from 'react';
 import { COLORS } from '../../colors';
+import Cast from './details/Cast';
+import OtherInfo from './details/OtherInfo';
+import Reviews from './details/Reviews';
+import Storyline from './details/Storyline';
 
 const MovieTabs = [
 	{
 		title: 'Reviews',
-		component: (
-			<p style={{ color: COLORS.textOnSecondary }} className="h4 font-weight-bold">
-				Reviews
-			</p>
-		)
+		component: <Reviews />
 	},
 	{
 		title: 'Storyline',
-		component: (
-			<p style={{ color: COLORS.textOnSecondary }} className="h4 font-weight-bold">
-				Storyline
-			</p>
-		)
+		component: <Storyline />
 	},
 	{
 		title: 'Cast',
-		component: (
-			<p style={{ color: COLORS.textOnSecondary }} className="h4 font-weight-bold">
-				Cast
-			</p>
-		)
-	},
-	{
-		title: 'Videos & Photos',
-		component: (
-			<p style={{ color: COLORS.textOnSecondary }} className="h4 font-weight-bold">
-				Videos & Photos
-			</p>
-		)
+		component: <Cast />
 	},
 	{
 		title: 'Other Info',
-		component: (
-			<p style={{ color: COLORS.textOnSecondary }} className="h4 font-weight-bold">
-				Other Info
-			</p>
-		)
+		component: <OtherInfo />
 	}
 ];
 
@@ -106,7 +86,13 @@ class MovieDetail extends React.Component {
 						))}
 					</Tabs>
 					{MovieTabs.map((tab, index) => (
-						<TabPanel key={index} value={value} index={index} style={{ backgroundColor: COLORS.white }}>
+						<TabPanel
+							key={index}
+							value={value}
+							index={index}
+							style={{ backgroundColor: COLORS.grey }}
+							className="mx-n3"
+						>
 							{tab.component}
 						</TabPanel>
 					))}
