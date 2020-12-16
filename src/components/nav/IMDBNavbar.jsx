@@ -85,6 +85,9 @@ class IMDBNavbar extends Component {
 								>
 									Add a Movie
 								</p>
+								<Link to="/" style={{
+										width: '20%',
+									}}>
 								<Button
 									style={{
 										width: '20%',
@@ -95,6 +98,7 @@ class IMDBNavbar extends Component {
 								>
 									Login
 								</Button>
+								</Link>
 							</Row>
 						</Col>
 					</Row>
