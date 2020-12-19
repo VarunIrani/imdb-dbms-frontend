@@ -1,6 +1,7 @@
 import React from 'react';
 import Home from './views/Home';
 import Movie from './views/Movie';
+import SearchPage from './components/movie/SearchPage';
 
 export const ROUTES = [
 	{
@@ -21,6 +22,6 @@ export const ROUTES = [
 	{
 		name: 'Search',
 		path: '/search',
-		component: null
+		component: <SearchPage/>
 	}
 ];

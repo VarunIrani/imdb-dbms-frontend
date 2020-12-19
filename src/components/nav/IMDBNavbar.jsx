@@ -5,17 +5,33 @@ import { Button, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { COLORS } from '../../colors';
 import AddMovie from './AddMovie';
+import AuthModal from '../auth/AuthModal'
+import SearchPage from '../movie/SearchPage';
+import {withRouter} from 'react-router-dom'
+import {Avatar} from '@material-ui/core'
+
 class IMDBNavbar extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			showAddMovie: false,
+			showLogin:false,
+			showSearch:false,
 			movies: [],
-			search: ''
+			search: '',
+			
 		};
 
 		this.handleChange = this.handleChange.bind(this);
 	}
+
+	goToSearch() {
+		this.props.history.push('/search')
+	  }
+
+	leaveSearch(){
+		this.props.history.goBack()
+	}  
 
 	handleChange(e) {
 		fetch(`https://mesmovies.herokuapp.com/get-movie-minified?title=${e.target.value}`, {
@@ -27,13 +43,27 @@ class IMDBNavbar extends Component {
 		})
 			.then((res) => res.json())
 			.then((res) => {
-				this.setState({
-					movies: res.filter((e, i) => i < 5).sort((a, b) => a.title.charCodeAt(0) - b.title.charCodeAt(0))
-				});
+				
+				if(e.target.value.length==0){
+					this.setState({
+						showSearch:false
+					})
+					this.leaveSearch()
+				}
+				else{
+					this.setState({
+						movies: res.filter((e, i) => i < 5).sort((a, b) => a.title.charCodeAt(0) - b.title.charCodeAt(0)),
+						showSearch:true,
+						search:e.target.value
+					});
+					this.goToSearch()
+				}
 			});
 	}
 
 	render() {
+		const loc=this.props.location.pathname
+
 		return (
 			<React.Fragment>
 				<AddMovie
@@ -41,6 +71,12 @@ class IMDBNavbar extends Component {
 						this.setState({ showAddMovie: !this.state.showAddMovie });
 					}}
 					show={this.state.showAddMovie}
+				/>
+				<AuthModal
+					onHide={() => {
+						this.setState({ showLogin: !this.state.showLogin });
+					}}
+					show={this.state.showLogin}
 				/>
 				<div className="px-5 py-4">
 					<Row>
@@ -87,27 +123,33 @@ class IMDBNavbar extends Component {
 								>
 									Add a Movie
 								</p>
-								<Link to="/" style={{
-										width: '20%',
-									}}>
+
+								<Avatar className="mr-5">N</Avatar>
+								
 								<Button
 									style={{
 										width: '20%',
 										backgroundColor: COLORS.primary,
 										color: 'black',
-										border: `1px solid ${COLORS.primary}`
+										border: `1px solid ${COLORS.primary}`,
+										cursor: 'pointer' 
+									}}
+									onClick={() => {
+										this.setState({ showLogin: true });
 									}}
 								>
+								
 									Login
 								</Button>
-								</Link>
 							</Row>
 						</Col>
 					</Row>
 				</div>
+				{(this.state.showSearch && loc=='/search') &&
+				<SearchPage searchText={this.state.search} movies={this.state.movies}/>}
 			</React.Fragment>
 		);
 	}
 }
 
-export default IMDBNavbar;
+export default withRouter(IMDBNavbar);

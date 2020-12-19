@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { COLORS } from '../../../colors';
-import { reviews } from './dummyReviews';
+// import { reviews } from './dummyReviews';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 export default class Reviews extends Component {
 	render() {
+		const movieDetails = this.props.movie;
+		console.log(movieDetails.reviews);
+		const reviews = movieDetails.reviews;
 		return (
 			<Container>
 				<Row>
@@ -14,6 +17,11 @@ export default class Reviews extends Component {
 						Reviews
 					</p>
 				</Row>
+				{reviews==null?
+				<Row>
+					No one has reviewed this movie ☹
+				</Row>
+				:
 				<Row className="justify-content-around">
 					{reviews.map((review, index) => (
 						<Col
@@ -32,13 +40,13 @@ export default class Reviews extends Component {
 											style={{ fontSize: 18 }}
 										/>
 										<span className="" style={{ fontSize: 20, color: 'black' }}>
-											{review.rating}
+											{Math.round(review.rating)}
 										</span>
 									</Row>
 								</Col>
 								<Col xl="9">
 									<Row>
-										<span style={{ color: '#333', fontSize: 24 }}>{review.username}</span>
+										<span style={{ color: '#333', fontSize: 24 }}>{review.userId}</span>
 									</Row>
 									<Row>
 										<span style={{ color: COLORS.darkGrey }}>{review.date}</span>
@@ -51,6 +59,7 @@ export default class Reviews extends Component {
 						</Col>
 					))}
 				</Row>
+				}
 			</Container>
 		);
 	}
