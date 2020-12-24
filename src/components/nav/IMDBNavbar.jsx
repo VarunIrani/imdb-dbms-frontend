@@ -1,14 +1,14 @@
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import React, { Component } from 'react';
-import { Button, Col, Row } from 'react-bootstrap';
+import { Button, Col, Row, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { COLORS } from '../../colors';
 import AddMovie from './AddMovie';
 import AuthModal from '../auth/AuthModal'
 import SearchPage from '../movie/SearchPage';
 import {withRouter} from 'react-router-dom'
-import {Avatar} from '@material-ui/core'
+import {Avatar,Tooltip} from '@material-ui/core'
 
 class IMDBNavbar extends Component {
 	constructor(props) {
@@ -19,18 +19,63 @@ class IMDBNavbar extends Component {
 			showSearch:false,
 			movies: [],
 			search: '',
+			initials:'',
+			email:'',
+			showLogout:false,
+			location:'',
+			searchURL:''
 			
 		};
 
 		this.handleChange = this.handleChange.bind(this);
 	}
 
+	componentDidMount(){
+		var initials = localStorage.getItem('user')
+		if(initials!=null){
+		this.setState({
+			email:initials,
+			initials:initials[0].toUpperCase()
+		})
+	}
+	}
+
+	
+
+	updateNavbar(){
+		var initials = localStorage.getItem('user')
+		if(initials!=null){
+		this.setState({
+			email:initials,
+			initials:initials[0].toUpperCase()
+		})
+		this.render()
+		console.log("initials sate "+this.state.initials)
+	}
+	}
+
+	
+
 	goToSearch() {
+		const loc=this.props.location.pathname
+		const searchURL=this.props.location.search
+		console.log('searchurl :'+searchURL)
+		if(loc!='/search'){
+			this.setState({
+				location:loc,
+				searchURL:searchURL
+			})
+			console.log('search url in state:'+this.state.searchURL)
+		
+	}
 		this.props.history.push('/search')
 	  }
 
 	leaveSearch(){
-		this.props.history.goBack()
+		// this.props.history.goBack()
+		if(this.state.location!=='')
+			this.props.history.push(this.state.location+this.state.searchURL)
+		console.log("currr url is "+this.state.location+this.state.searchURL)
 	}  
 
 	handleChange(e) {
@@ -44,7 +89,7 @@ class IMDBNavbar extends Component {
 			.then((res) => res.json())
 			.then((res) => {
 				
-				if(e.target.value.length==0){
+				if(e.target.value.length===0){
 					this.setState({
 						showSearch:false
 					})
@@ -75,9 +120,12 @@ class IMDBNavbar extends Component {
 				<AuthModal
 					onHide={() => {
 						this.setState({ showLogin: !this.state.showLogin });
+						this.updateNavbar()
 					}}
 					show={this.state.showLogin}
 				/>
+			
+				
 				<div className="px-5 py-4">
 					<Row>
 						<Col>
@@ -123,10 +171,14 @@ class IMDBNavbar extends Component {
 								>
 									Add a Movie
 								</p>
-
-								<Avatar className="mr-5">N</Avatar>
+								{this.state.initials===''?<></>:
+								<Tooltip title={this.state.email} aria-label="add">
+								<Avatar className="mr-5">{this.state.initials}</Avatar>
+								</Tooltip>
+								}
 								
-								<Button
+								{this.state.initials===''?
+																<Button
 									style={{
 										width: '20%',
 										backgroundColor: COLORS.primary,
@@ -141,11 +193,32 @@ class IMDBNavbar extends Component {
 								
 									Login
 								</Button>
+								:
+								<Button
+									style={{
+										width: '20%',
+										backgroundColor: COLORS.primary,
+										color: 'black',
+										border: `1px solid ${COLORS.primary}`,
+										cursor: 'pointer' 
+									}}
+									onClick={() => {
+										localStorage.removeItem('user')
+										this.setState({
+											initials:'',
+											showLogout:true
+										})
+									}}
+								>
+								
+									Logout
+								</Button>
+								}
 							</Row>
 						</Col>
 					</Row>
 				</div>
-				{(this.state.showSearch && loc=='/search') &&
+				{(this.state.showSearch && loc==='/search') &&
 				<SearchPage searchText={this.state.search} movies={this.state.movies}/>}
 			</React.Fragment>
 		);

@@ -17,8 +17,8 @@ export default class Reviews extends Component {
 						Reviews
 					</p>
 				</Row>
-				{reviews==null?
-				<Row>
+				{reviews.length==0?
+				<Row className="text-muted text-center justify-content-center h4">
 					No one has reviewed this movie ☹
 				</Row>
 				:
@@ -28,7 +28,7 @@ export default class Reviews extends Component {
 							xl="5"
 							key={index}
 							style={{ background: 'white', borderRadius: 8, boxShadow: '-1px 1px 10px 0px #eee' }}
-							className="mb-3 mt-3"
+							className="mb-3 mt-3 shadow"
 						>
 							<Row className="p-4 justify-content-between">
 								<Col xl="2" className="p-4" style={{ borderRadius: 8, backgroundColor: COLORS.grey }}>

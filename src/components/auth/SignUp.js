@@ -1,16 +1,20 @@
 import React,{useState} from 'react';
-import { Container, Form, Modal, Row, Col,Button } from 'react-bootstrap';
+import { Container, Form, Modal, Row, Col,Button,Alert } from 'react-bootstrap';
 import { COLORS } from '../../colors';
 
 const SignUp = (props) => {
 
-  const [signUp,setSignUp]=useState(false)
+  const [alert,setAlert]=useState(false)
   const [state,setState]=useState({
     name:'',
     email:'',
     password:'',
     loginData:{name:'',email:'',password:''}
   })
+
+  const setLocalData=()=>{
+    localStorage.setItem('user',state.loginData.email)
+  }
 
   const handleSubmit=()=>{
 
@@ -22,11 +26,19 @@ const SignUp = (props) => {
 			headers,
 			body: JSON.stringify(state.loginData)
 		})
-      .then((res) => {
-        if(res.status === 201)
-          console.log("success")
-        res.json()
-      })
+    .then((res) => {
+      res.json()
+      // console.log(res)
+      if(res.status >= 200 && res.status<205){
+        console.log("success")
+        setAlert(true)
+        setLocalData()
+        console.log(localStorage.getItem('user'))
+      }
+      else{
+        console.log("error")
+      }
+    })
   }
 
   const handleChange=(input,evt) =>{
@@ -43,39 +55,57 @@ const SignUp = (props) => {
     
     return ( 
         
-      <Container className="d-flex justify-content-center">
-      <Form>
-
-  <Form.Group>
-    <Form.Label>Name</Form.Label>
-    <Form.Control type="text" placeholder="Enter your name" name="name" onChange={(e)=>handleChange('name',e)} value={state.name}/>
-    <Form.Text className="text-muted">
-      Your name will appear on your reveiws.
-    </Form.Text>
-  </Form.Group>
-
-  <Form.Group controlId="formBasicEmail">
-    <Form.Label>Email address</Form.Label>
-    <Form.Control type="email" placeholder="Enter email" name="email" onChange={(e)=>handleChange('email',e)} value={state.email}/>
-    <Form.Text className="text-muted">
-      We'll never share your email with anyone else.
-    </Form.Text>
-  </Form.Group>
-
-  <Form.Group controlId="formBasicPassword">
-    <Form.Label>Password</Form.Label>
-    <Form.Control type="password" placeholder="Password" name="password" onChange={(e)=>handleChange('password',e)} value={state.password}/>
-  </Form.Group>
-  <Form.Group controlId="formBasicCheckbox">
-    <Form.Check type="checkbox" label="Keep me updated on new movies" />
-  </Form.Group>
-  <Row className="justify-content-center">
-  <Button color={COLORS.primary} type="submit" style={{backgroundColor:COLORS.primary, color:'black'}} onClick={()=>handleSubmit()}>
-    Sign Up
-  </Button>
-  </Row>
-</Form>
-</Container>
+      <>
+      {alert?
+      <Alert  variant="success">
+      You are signed in successfully!
+      </Alert>:
+					<Container className="justify-content-center">
+          <Row>
+					<Col>
+						<Form.Label>Full name</Form.Label>
+						<Form.Control
+              type="text"
+							onChange={(e) => handleChange('name', e)}
+							placeholder="Enter your name"
+							defaultValue={state.name}
+						/>
+					</Col>
+				</Row>
+						<Row>
+					<Col>
+						<Form.Label>Email</Form.Label>
+						<Form.Control
+							onChange={(e) => handleChange('email', e)}
+							placeholder="Enter email"
+							defaultValue={state.email}
+						/>
+					</Col>
+				</Row>
+        <Row>
+					<Col>
+						<Form.Label>Password</Form.Label>
+						<Form.Control
+              type="password"
+							onChange={(e) => handleChange('password', e)}
+							placeholder="Enter password"
+							defaultValue={state.password}
+						/>
+					</Col>
+				</Row>
+						<Row className="justify-content-end mt-3">
+							<Button
+								disableElevation
+								variant="contained"
+								style={{ background: COLORS.primary, color: COLORS.textOnPrimary }}
+								onClick={()=>handleSubmit()}
+							>
+								Submit
+							</Button>
+						</Row>
+					</Container>
+      }
+</>
       
      );
 }

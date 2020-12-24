@@ -41,8 +41,8 @@ export default class Cast extends Component {
 				<Row>
 				<CardColumns>
 					{actors.map((actor, i) => (
-						<Card className="cardd shadow-sm rounded">
-								<Card.Img variant="top" height="400" width="300" src={actor.image} />
+						<Card className="cardd shadow rounded">
+								<Card.Img variant="top" src={actor.image} />
 							<Card.Body>
 									<Card.Title className="text-black p-0 m-0 pl-2 h3" style={{color:'black'}}>{actor.name}</Card.Title>
 							</Card.Body>

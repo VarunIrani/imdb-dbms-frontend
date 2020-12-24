@@ -2,7 +2,7 @@ import React,{useState} from 'react';
 import { Container, Form, Modal, Row, Col,Button,Alert } from 'react-bootstrap';
 import { COLORS } from '../../colors';
 
-const Login = (props) => {
+const Login = () => {
 
   const [alert,setAlert]=useState(false)
   const [state,setState]=useState({
@@ -11,6 +11,10 @@ const Login = (props) => {
     password:'',
     loginData:{email:'',password:''}
   })
+
+  const setLocalData=()=>{
+    localStorage.setItem('user',state.loginData.email)
+  }
 
   const handleSubmit=()=>{
 
@@ -23,12 +27,19 @@ const Login = (props) => {
 			body: JSON.stringify(state.loginData)
 		})
       .then((res) => {
-        if(res.status === 201){
+        res.json()
+        // console.log(res)
+        if(res.status >= 200 && res.status<205){
           console.log("success")
           setAlert(true)
+          setLocalData()
+          console.log(localStorage.getItem('user'))
         }
-        res.json()
+        else{
+          console.log("error")
+        }
       })
+      
   }
 
   const handleChange=(input,evt) =>{
@@ -40,7 +51,6 @@ const Login = (props) => {
     [evt.target.name]: value,
     loginData:loginData
   });
-  console.log(state.loginData)
   }
   
   
@@ -49,32 +59,41 @@ const Login = (props) => {
       <>
       {alert?
       <Alert  variant="success">
-      This is a success alert—check it out!
+      You are logged in successfully!
       </Alert>:
-      <Container className="d-flex justify-content-center">
-      <Form>
-  <Form.Group controlId="formBasicEmail">
-    <Form.Label>Email address</Form.Label>
-    <Form.Control type="email" placeholder="Enter email" name="email" onChange={(e)=>handleChange('email',e)} value={state.email} />
-    <Form.Text className="text-muted">
-      We'll never share your email with anyone else.
-    </Form.Text>
-  </Form.Group>
-
-  <Form.Group controlId="formBasicPassword">
-    <Form.Label>Password</Form.Label>
-    <Form.Control type="password" placeholder="Password" name="password" onChange={(e)=>handleChange('password',e)} value={state.password} />
-  </Form.Group>
-  <Form.Group controlId="formBasicCheckbox">
-    <Form.Check type="checkbox" label="Keep me updated on new movies" />
-  </Form.Group>
-  <Row className="justify-content-center">
-  <Button color={COLORS.primary} type="submit" style={{backgroundColor:COLORS.primary, color:'black'}} onSubmit={handleSubmit()}>
-    Login
-  </Button>
-  </Row>
-</Form>
-</Container>
+					<Container className="justify-content-center">
+						<Row>
+					<Col>
+						<Form.Label>Email</Form.Label>
+						<Form.Control
+							onChange={(e) => handleChange('email', e)}
+							placeholder="Enter email"
+							defaultValue={state.email}
+						/>
+					</Col>
+				</Row>
+        <Row>
+					<Col>
+						<Form.Label>Password</Form.Label>
+						<Form.Control
+              type="password"
+							onChange={(e) => handleChange('password', e)}
+							placeholder="Enter password"
+							defaultValue={state.password}
+						/>
+					</Col>
+				</Row>
+						<Row className="justify-content-end mt-3">
+							<Button
+								disableElevation
+								variant="contained"
+								style={{ background: COLORS.primary, color: COLORS.textOnPrimary }}
+								onClick={()=>handleSubmit()}
+							>
+								Submit
+							</Button>
+						</Row>
+					</Container>
       }
 </>
       
