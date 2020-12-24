@@ -8,24 +8,7 @@ import OtherInfo from './details/OtherInfo';
 import Reviews from './details/Reviews';
 import Storyline from './details/Storyline';
 
-const MovieTabs = [
-	{
-		title: 'Reviews',
-		component: <Reviews />
-	},
-	{
-		title: 'Storyline',
-		component: <Storyline />
-	},
-	{
-		title: 'Cast',
-		component: <Cast />
-	},
-	{
-		title: 'Other Info',
-		component: <OtherInfo />
-	}
-];
+
 
 const TabPanel = (props) => {
 	const { children, value, index, ...other } = props;
@@ -59,6 +42,25 @@ class MovieDetail extends React.Component {
 		this.handleChange = this.handleChange.bind(this);
 	}
 
+	 MovieTabs = [
+		{
+			title: 'Reviews',
+			component: <Reviews movie={this.props.movieDetails}/>
+		},
+		{
+			title: 'Storyline',
+			component: <Storyline movie={this.props.movieDetails}/>
+		},
+		{
+			title: 'Cast',
+			component: <Cast movie={this.props.movieDetails}/>
+		},
+		{
+			title: 'Other Info',
+			component: <OtherInfo movie={this.props.movieDetails}/>
+		}
+	];
+
 	handleChange(event, value) {
 		this.setState({ value });
 	}
@@ -75,7 +77,7 @@ class MovieDetail extends React.Component {
 						centered
 						style={{ color: COLORS.textOnPrimary }}
 					>
-						{MovieTabs.map((tab, index) => (
+						{this.MovieTabs.map((tab, index) => (
 							<Tab
 								key={index}
 								label={`${tab.title}`}
@@ -85,7 +87,7 @@ class MovieDetail extends React.Component {
 							/>
 						))}
 					</Tabs>
-					{MovieTabs.map((tab, index) => (
+					{this.MovieTabs.map((tab, index) => (
 						<TabPanel
 							key={index}
 							value={value}
