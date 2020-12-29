@@ -8,8 +8,6 @@ import OtherInfo from './details/OtherInfo';
 import Reviews from './details/Reviews';
 import Storyline from './details/Storyline';
 
-
-
 const TabPanel = (props) => {
 	const { children, value, index, ...other } = props;
 
@@ -42,22 +40,22 @@ class MovieDetail extends React.Component {
 		this.handleChange = this.handleChange.bind(this);
 	}
 
-	 MovieTabs = [
+	MovieTabs = [
 		{
 			title: 'Reviews',
-			component: <Reviews movie={this.props.movieDetails}/>
+			component: <Reviews movie={this.props.movieDetails} />
 		},
 		{
 			title: 'Storyline',
-			component: <Storyline movie={this.props.movieDetails}/>
+			component: <Storyline movie={this.props.movieDetails} />
 		},
 		{
 			title: 'Cast',
-			component: <Cast movie={this.props.movieDetails}/>
+			component: <Cast movie={this.props.movieDetails} />
 		},
 		{
 			title: 'Other Info',
-			component: <OtherInfo movie={this.props.movieDetails}/>
+			component: <OtherInfo movie={this.props.movieDetails} />
 		}
 	];
 

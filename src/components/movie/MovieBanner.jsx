@@ -14,17 +14,52 @@ class MovieBanner extends React.Component {
 			height: '0',
 			width: '0',
 			showReview: false,
-			review: null
+			review: { _id: null },
+			user: JSON.parse(localStorage.getItem('user')),
+			movieDetails: null
 		};
 		this.setShowReview = this.setShowReview.bind(this);
+		this.doesReviewExist = this.doesReviewExist.bind(this);
+		this.deleteReview = this.deleteReview.bind(this);
 		this.setReview = this.setReview.bind(this);
 	}
 
 	componentDidMount() {
-		this.setState({
-			height: '240',
-			width: '240'
-		});
+		this.doesReviewExist();
+	}
+
+	doesReviewExist() {
+		let review;
+		if (this.state.user) {
+			fetch('https://mesmovies.herokuapp.com/does-review-exist', {
+				method: 'POST',
+				mode: 'cors',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					movieId: this.props.movieDetails._id,
+					userId: this.state.user.id
+				})
+			})
+				.then((res) => res.json())
+				.then(
+					function(res) {
+						review = res;
+						this.setState({
+							height: '240',
+							width: '240',
+							review
+						});
+						this.reviewModal.setReview();
+					}.bind(this)
+				);
+		} else {
+			this.setState({
+				height: '240',
+				width: '240'
+			});
+		}
 	}
 
 	setShowReview() {
@@ -32,19 +67,74 @@ class MovieBanner extends React.Component {
 	}
 
 	setReview(review) {
-		this.setState({ review });
+		if (this.state.review._id === null) {
+			console.log('New');
+			fetch(`https://mesmovies.herokuapp.com/review`, {
+				method: 'POST',
+				mode: 'cors',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(review)
+			})
+				.then((res) => res.json())
+				.then(
+					function(res) {
+						this.setState({ review });
+						window.location.reload();
+					}.bind(this)
+				);
+		} else {
+			console.log('Update');
+			fetch(`https://mesmovies.herokuapp.com/update-review`, {
+				method: 'POST',
+				mode: 'cors',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(review)
+			})
+				.then((res) => res.json())
+				.then(
+					function(res) {
+						this.setState({ review });
+						window.location.reload();
+					}.bind(this)
+				);
+		}
+	}
+
+	deleteReview(id) {
+		fetch(`https://mesmovies.herokuapp.com/delete-review?id=${id}`, {
+			method: 'DELETE',
+			mode: 'cors'
+		}).then(
+			function(res) {
+				this.setState({ review: { _id: null } });
+				window.location.reload();
+			}.bind(this)
+		);
 	}
 
 	render() {
-		const movieDetails = this.props.movieDetails;
-		// console.log(movieDetails.Title)
+		let movieDetails = this.props.movieDetails;
 		return (
 			<Container>
 				<ReviewModal
+					ref={(n) => {
+						this.reviewModal = n;
+					}}
+					movieId={movieDetails._id}
+					userId={this.state.user ? this.state.user.id : ''}
 					show={this.state.showReview}
 					onHide={this.setShowReview}
+					review={this.state.review}
+					deleteReview={(id) => {
+						this.deleteReview(id);
+					}}
 					setReview={(review) => this.setReview(review)}
 				/>
+
 				{movieDetails ? (
 					<Row className="pb-5 pt-3 justify-content-between">
 						<Col xl={8}>
@@ -139,19 +229,21 @@ class MovieBanner extends React.Component {
 									<CardActions>
 										<Container className="mb-3">
 											<Row className="justify-content-center">
-												<Button
-													startIcon={<FontAwesomeIcon icon={faComment} />}
-													size="large"
-													variant="contained"
-													style={{
-														backgroundColor: '#1a1a1a',
-														color: 'white',
-														fontWeight: 'bold'
-													}}
-													onClick={this.setShowReview}
-												>
-													{this.state.review ? 'edit your review' : 'write a review'}
-												</Button>
+												{this.state.user ? (
+													<Button
+														startIcon={<FontAwesomeIcon icon={faComment} />}
+														size="large"
+														variant="contained"
+														style={{
+															backgroundColor: '#1a1a1a',
+															color: 'white',
+															fontWeight: 'bold'
+														}}
+														onClick={this.setShowReview}
+													>
+														{this.state.review._id ? 'edit your review' : 'write a review'}
+													</Button>
+												) : null}
 											</Row>
 										</Container>
 									</CardActions>

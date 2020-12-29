@@ -1,82 +1,70 @@
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import React, { Component } from 'react';
-import { Button, Col, Row, Alert } from 'react-bootstrap';
+import { Button, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { COLORS } from '../../colors';
 import AddMovie from './AddMovie';
-import AuthModal from '../auth/AuthModal'
+import AuthModal from '../auth/AuthModal';
 import SearchPage from '../movie/SearchPage';
-import {withRouter} from 'react-router-dom'
-import {Avatar,Tooltip} from '@material-ui/core'
+import { withRouter } from 'react-router-dom';
+import { Avatar, Tooltip } from '@material-ui/core';
 
 class IMDBNavbar extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			showAddMovie: false,
-			showLogin:false,
-			showSearch:false,
+			showLogin: false,
+			showSearch: false,
 			movies: [],
 			search: '',
-			initials:'',
-			email:'',
-			showLogout:false,
-			location:'',
-			searchURL:''
-			
+			initials: null,
+			email: '',
+			showLogout: false,
+			location: '',
+			searchURL: ''
 		};
 
 		this.handleChange = this.handleChange.bind(this);
 	}
 
-	componentDidMount(){
-		var initials = localStorage.getItem('user')
-		if(initials!=null){
-		this.setState({
-			email:initials,
-			initials:initials[0].toUpperCase()
-		})
-	}
-	}
-
-	
-
-	updateNavbar(){
-		var initials = localStorage.getItem('user')
-		if(initials!=null){
-		this.setState({
-			email:initials,
-			initials:initials[0].toUpperCase()
-		})
-		this.render()
-		console.log("initials sate "+this.state.initials)
-	}
+	componentDidMount() {
+		let initials = JSON.parse(localStorage.getItem('user'));
+		if (initials != null) {
+			this.setState({
+				email: initials.email,
+				initials: initials.email[0].toUpperCase()
+			});
+		}
 	}
 
-	
+	updateNavbar() {
+		let initials = JSON.parse(localStorage.getItem('user'));
+		if (initials != null) {
+			this.setState({
+				email: initials.email,
+				initials: initials.email[0].toUpperCase()
+			});
+			this.render();
+		}
+	}
 
 	goToSearch() {
-		const loc=this.props.location.pathname
-		const searchURL=this.props.location.search
-		console.log('searchurl :'+searchURL)
-		if(loc!='/search'){
+		const loc = this.props.location.pathname;
+		const searchURL = this.props.location.search;
+		if (loc !== '/search') {
 			this.setState({
-				location:loc,
-				searchURL:searchURL
-			})
-			console.log('search url in state:'+this.state.searchURL)
-		
+				location: loc,
+				searchURL: searchURL
+			});
+		}
+		this.props.history.push('/search');
 	}
-		this.props.history.push('/search')
-	  }
 
-	leaveSearch(){
-		// this.props.history.goBack()
-		if(this.state.location!=='')
-			this.props.history.push(this.state.location+this.state.searchURL)
-		console.log("currr url is "+this.state.location+this.state.searchURL)
-	}  
+	leaveSearch() {
+		if (this.state.location !== '') this.props.history.push(this.state.location + this.state.searchURL);
+	}
 
 	handleChange(e) {
 		fetch(`https://mesmovies.herokuapp.com/get-movie-minified?title=${e.target.value}`, {
@@ -88,27 +76,28 @@ class IMDBNavbar extends Component {
 		})
 			.then((res) => res.json())
 			.then((res) => {
-				
-				if(e.target.value.length===0){
-					this.setState({
-						showSearch:false
-					})
-					this.leaveSearch()
-				}
-				else{
-					this.setState({
-						movies: res.filter((e, i) => i < 5).sort((a, b) => a.title.charCodeAt(0) - b.title.charCodeAt(0)),
-						showSearch:true,
-						search:e.target.value
-					});
-					this.goToSearch()
+				if (e.target.value) {
+					if (e.target.value.length === 0) {
+						this.setState({
+							showSearch: false
+						});
+						this.leaveSearch();
+					} else {
+						this.setState({
+							movies: res
+								.filter((e, i) => i < 5)
+								.sort((a, b) => a.title.charCodeAt(0) - b.title.charCodeAt(0)),
+							showSearch: true,
+							search: e.target.value
+						});
+						this.goToSearch();
+					}
 				}
 			});
 	}
-
 	render() {
-		const loc=this.props.location.pathname
-
+		const user = JSON.parse(localStorage.getItem('user'));
+		const loc = this.props.location.pathname;
 		return (
 			<React.Fragment>
 				<AddMovie
@@ -120,12 +109,10 @@ class IMDBNavbar extends Component {
 				<AuthModal
 					onHide={() => {
 						this.setState({ showLogin: !this.state.showLogin });
-						this.updateNavbar()
+						this.updateNavbar();
 					}}
 					show={this.state.showLogin}
 				/>
-			
-				
 				<div className="px-5 py-4">
 					<Row>
 						<Col>
@@ -162,64 +149,70 @@ class IMDBNavbar extends Component {
 								<Link to="/" style={{ textDecoration: 'none', color: 'black' }}>
 									<p className="p-0 m-0 mr-5">Home</p>
 								</Link>
-								<p
-									style={{ cursor: 'pointer' }}
-									className="p-0 m-0 mr-5"
-									onClick={() => {
-										this.setState({ showAddMovie: true });
-									}}
-								>
-									Add a Movie
-								</p>
-								{this.state.initials===''?<></>:
-								<Tooltip title={this.state.email} aria-label="add">
-								<Avatar className="mr-5">{this.state.initials}</Avatar>
-								</Tooltip>
-								}
-								
-								{this.state.initials===''?
-																<Button
-									style={{
-										width: '20%',
-										backgroundColor: COLORS.primary,
-										color: 'black',
-										border: `1px solid ${COLORS.primary}`,
-										cursor: 'pointer' 
-									}}
-									onClick={() => {
-										this.setState({ showLogin: true });
-									}}
-								>
-								
-									Login
-								</Button>
-								:
-								<Button
-									style={{
-										width: '20%',
-										backgroundColor: COLORS.primary,
-										color: 'black',
-										border: `1px solid ${COLORS.primary}`,
-										cursor: 'pointer' 
-									}}
-									onClick={() => {
-										localStorage.removeItem('user')
-										this.setState({
-											initials:'',
-											showLogout:true
-										})
-									}}
-								>
-								
-									Logout
-								</Button>
-								}
+								{user ? user.admin ? (
+									<p
+										style={{ cursor: 'pointer' }}
+										className="p-0 m-0 mr-5"
+										onClick={() => {
+											this.setState({ showAddMovie: true });
+										}}
+									>
+										Add a Movie
+									</p>
+								) : null : null}
+
+								{this.state.initials === null ? (
+									<React.Fragment />
+								) : (
+									<Tooltip title={this.state.email} aria-label="add">
+										<Avatar className="mr-5" style={{ backgroundColor: COLORS.secondary }}>
+											{this.state.initials}
+										</Avatar>
+									</Tooltip>
+								)}
+
+								{this.state.initials === null ? (
+									<Button
+										style={{
+											width: '20%',
+											backgroundColor: COLORS.primary,
+											color: 'black',
+											border: `1px solid ${COLORS.primary}`,
+											cursor: 'pointer'
+										}}
+										onClick={() => {
+											this.setState({ showLogin: true });
+										}}
+									>
+										Login
+									</Button>
+								) : (
+									<Button
+										style={{
+											width: '20%',
+											backgroundColor: COLORS.primary,
+											color: 'black',
+											border: `1px solid ${COLORS.primary}`,
+											cursor: 'pointer'
+										}}
+										onClick={() => {
+											localStorage.removeItem('user');
+											this.setState({
+												initials: null,
+												showLogout: true
+											});
+											window.location.reload();
+										}}
+									>
+										Logout
+									</Button>
+								)}
 							</Row>
 						</Col>
 					</Row>
 				</div>
-				{(this.state.showSearch && loc==='/search') &&
-				<SearchPage searchText={this.state.search} movies={this.state.movies}/>}
+				{this.state.showSearch &&
+				loc === '/search' && <SearchPage searchText={this.state.search} movies={this.state.movies} />}
 			</React.Fragment>
 		);
 	}
