@@ -42,8 +42,6 @@ export default class AddMovie extends Component {
 
 		movieData['actors'] = actors;
 
-		console.log(JSON.stringify(movieData));
-
 		const headers = new Headers();
 		headers.append('Content-Type', 'application/json');
 

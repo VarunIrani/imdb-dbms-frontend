@@ -22,6 +22,6 @@ export const ROUTES = [
 	{
 		name: 'Search',
 		path: '/search',
-		component: <SearchPage/>
+		component: <SearchPage movies={null} />
 	}
 ];

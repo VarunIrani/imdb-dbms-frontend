@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import { Container } from 'react-bootstrap';
 import MovieBanner from '../components/movie/MovieBanner';
 import MovieDetail from '../components/movie/MovieDetail';
 
 const getParameterByName = (name, url = window.location.href) => {
 	name = name.replace(/[[\]]/g, '\\$&');
-	var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+	let regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
 		results = regex.exec(url);
 	if (!results) return null;
 	if (!results[2]) return '';
@@ -16,11 +17,11 @@ export default class Movie extends Component {
 		this.state = {
 			movieDetails: null
 		};
+		this.getMovie = this.getMovie.bind(this);
 	}
 
-	componentDidMount() {
+	getMovie() {
 		const title = getParameterByName('title');
-		console.log(title);
 		fetch(`https://mesmovies.herokuapp.com/get-movie?title=${title}`, {
 			mode: 'cors',
 			method: 'GET',
@@ -30,16 +31,26 @@ export default class Movie extends Component {
 		})
 			.then((res) => res.json())
 			.then((res) => {
-				console.log(res);
 				this.setState({
 					movieDetails: res[0]
 				});
 			});
 	}
+
+	componentDidMount() {
+		this.getMovie();
+	}
+
 	render() {
 		return (
 			<React.Fragment>
-				<MovieBanner movieDetails={this.state.movieDetails} />
+				{this.state.movieDetails ? (
+					<MovieBanner movieDetails={this.state.movieDetails} getMovie={this.getMovie} />
+				) : (
+					<Container>
+						<h2>Loading...</h2>
+					</Container>
+				)}
 				{this.state.movieDetails ? <MovieDetail movieDetails={this.state.movieDetails} /> : null}
 			</React.Fragment>
 		);

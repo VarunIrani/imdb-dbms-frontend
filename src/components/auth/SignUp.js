@@ -1,24 +1,25 @@
-import React,{useState} from 'react';
-import { Container, Form, Modal, Row, Col,Button,Alert } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Container, Form, Row, Col, Button, Alert } from 'react-bootstrap';
 import { COLORS } from '../../colors';
 
 const SignUp = (props) => {
+	const [ alert, setAlert ] = useState(false);
+	const [ state, setState ] = useState({
+		name: '',
+		email: '',
+		password: '',
+		loginData: { name: '', email: '', password: '', admin: false }
+	});
 
-  const [alert,setAlert]=useState(false)
-  const [state,setState]=useState({
-    name:'',
-    email:'',
-    password:'',
-    loginData:{name:'',email:'',password:''}
-  })
+	const setLocalData = (data) => {
+		localStorage.setItem(
+			'user',
+			JSON.stringify({ id: data.message.userId, email: state.loginData.email, admin: data.message.admin })
+		);
+	};
 
-  const setLocalData=()=>{
-    localStorage.setItem('user',state.loginData.email)
-  }
-
-  const handleSubmit=()=>{
-
-    const headers = new Headers();
+	const handleSubmit = () => {
+		const headers = new Headers();
 		headers.append('Content-Type', 'application/json');
 		fetch('https://mesmovies.herokuapp.com/sign-up', {
 			method: 'POST',
@@ -26,88 +27,80 @@ const SignUp = (props) => {
 			headers,
 			body: JSON.stringify(state.loginData)
 		})
-    .then((res) => {
-      res.json()
-      // console.log(res)
-      if(res.status >= 200 && res.status<205){
-        console.log("success")
-        setAlert(true)
-        setLocalData()
-        console.log(localStorage.getItem('user'))
-      }
-      else{
-        console.log("error")
-      }
-    })
-  }
+			.then((res) => res.json())
+			.then((res) => {
+				if (res.status >= 200 && res.status < 205) {
+					setAlert(true);
+					setLocalData(res);
+					window.location.reload();
+				} else {
+				}
+			});
+	};
 
-  const handleChange=(input,evt) =>{
-    const value = evt.target.value;
-    const loginData = state.loginData;
+	const handleChange = (input, evt) => {
+		const value = evt.target.value;
+		const loginData = state.loginData;
 		loginData[input] = value;
-  setState({
-    ...state,
-    [evt.target.name]: value,
-    loginData:loginData
-  });
-  console.log(state.loginData)
-	}
-    
-    return ( 
-        
-      <>
-      {alert?
-      <Alert  variant="success">
-      You are signed in successfully!
-      </Alert>:
-					<Container className="justify-content-center">
-          <Row>
-					<Col>
-						<Form.Label>Full name</Form.Label>
-						<Form.Control
-              type="text"
-							onChange={(e) => handleChange('name', e)}
-							placeholder="Enter your name"
-							defaultValue={state.name}
-						/>
-					</Col>
-				</Row>
-						<Row>
-					<Col>
-						<Form.Label>Email</Form.Label>
-						<Form.Control
-							onChange={(e) => handleChange('email', e)}
-							placeholder="Enter email"
-							defaultValue={state.email}
-						/>
-					</Col>
-				</Row>
-        <Row>
-					<Col>
-						<Form.Label>Password</Form.Label>
-						<Form.Control
-              type="password"
-							onChange={(e) => handleChange('password', e)}
-							placeholder="Enter password"
-							defaultValue={state.password}
-						/>
-					</Col>
-				</Row>
-						<Row className="justify-content-end mt-3">
-							<Button
-								disableElevation
-								variant="contained"
-								style={{ background: COLORS.primary, color: COLORS.textOnPrimary }}
-								onClick={()=>handleSubmit()}
-							>
-								Submit
-							</Button>
-						</Row>
-					</Container>
-      }
-</>
-      
-     );
-}
- 
+		setState({
+			...state,
+			[evt.target.name]: value,
+			loginData: loginData
+		});
+	};
+
+	return (
+		<React.Fragment>
+			{alert ? (
+				<Alert variant="success">You are signed in successfully!</Alert>
+			) : (
+				<Container className="justify-content-center">
+					<Row>
+						<Col>
+							<Form.Label>Full name</Form.Label>
+							<Form.Control
+								type="text"
+								onChange={(e) => handleChange('name', e)}
+								placeholder="Enter your name"
+								defaultValue={state.name}
+							/>
+						</Col>
+					</Row>
+					<Row className="mt-3">
+						<Col>
+							<Form.Label>Email</Form.Label>
+							<Form.Control
+								onChange={(e) => handleChange('email', e)}
+								placeholder="Enter email"
+								defaultValue={state.email}
+							/>
+						</Col>
+					</Row>
+					<Row className="mt-3">
+						<Col>
+							<Form.Label>Password</Form.Label>
+							<Form.Control
+								type="password"
+								onChange={(e) => handleChange('password', e)}
+								placeholder="Enter password"
+								defaultValue={state.password}
+							/>
+						</Col>
+					</Row>
+					<Row className="justify-content-end mt-3">
+						<Button
+							disableElevation
+							variant="contained"
+							style={{ background: COLORS.primary, color: COLORS.textOnPrimary }}
+							onClick={() => handleSubmit()}
+						>
+							Submit
+						</Button>
+					</Row>
+				</Container>
+			)}
+		</React.Fragment>
+	);
+};
+
 export default SignUp;

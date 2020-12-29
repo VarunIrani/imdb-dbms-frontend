@@ -3,29 +3,37 @@ import { Container, Form, Modal, Row, Col } from 'react-bootstrap';
 import { Rating } from '@material-ui/lab';
 import { Button } from '@material-ui/core';
 import { COLORS } from '../../colors';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 export default class ReviewModal extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			review: { rating: 0, comments: '' },
+			userReview: { rating: 0, comment: '', _id: null },
 			errors: []
 		};
 		this.setRating = this.setRating.bind(this);
+		this.setReview = this.setReview.bind(this);
 		this.submitReview = this.submitReview.bind(this);
 		this.handleCommentsChange = this.handleCommentsChange.bind(this);
 	}
 
 	setRating() {
-		const r = this.state.review;
-		r.rating = document.querySelectorAll('.MuiRating-iconFilled').length;
+		const r = this.state.userReview;
+		r.rating = document.querySelectorAll('.MuiRating-iconFilled').length.toString();
+		r.userId = this.props.userId;
+		r.movieId = this.props.movieId;
 		this.setState({ review: r });
 	}
 
 	submitReview() {
 		let errors = [];
-		if (this.state.review.rating > 0) {
-			this.props.setReview(this.state.review);
+		let review = this.state.userReview;
+		if (review.rating > 0) {
+			review.date = new Date(Date.now()).toLocaleDateString();
+			console.log(review);
+			this.props.setReview(review);
 			this.props.onHide();
 		} else {
 			errors.push({ message: 'Please give a rating of at least 1' });
@@ -34,9 +42,21 @@ export default class ReviewModal extends Component {
 	}
 
 	handleCommentsChange() {
-		const r = this.state.review;
-		r.comments = this.comments.value;
+		const r = this.state.userReview;
+		r.comment = this.comments.value;
+		r.userId = this.props.userId;
+		r.movieId = this.props.movieId;
 		this.setState({ review: r });
+	}
+
+	setReview() {
+		this.setState({
+			userReview: {
+				_id: this.props.review._id,
+				rating: this.props.review.rating,
+				comment: this.props.review.comment
+			}
+		});
 	}
 
 	render() {
@@ -50,12 +70,27 @@ export default class ReviewModal extends Component {
 				onHide={this.props.onHide}
 			>
 				<Modal.Header closeButton>
-					<Modal.Title id="contained-modal-title-vcenter">Write A Review</Modal.Title>
+					<Container>
+						<Row className="justify-content-between">
+							<Modal.Title id="contained-modal-title-vcenter">Write A Review</Modal.Title>
+							{this.props.review._id ? (
+								<Button
+									className="bg-danger"
+									size="small"
+									onClick={() => {
+										this.props.deleteReview(this.props.review._id);
+									}}
+								>
+									<FontAwesomeIcon icon={faTrash} color="white" style={{ fontSize: 22 }} />
+								</Button>
+							) : null}
+						</Row>
+					</Container>
 				</Modal.Header>
 				<Modal.Body>
 					<Container>
 						<Row>
-							<p>You rated this movie: {this.state.review.rating}</p>
+							<p>You rated this movie: {this.state.userReview.rating}</p>
 						</Row>
 						<Row className="justify-content-center">
 							<Col />
@@ -64,7 +99,7 @@ export default class ReviewModal extends Component {
 									size="large"
 									max={10}
 									onChange={this.setRating}
-									value={this.state.review.rating}
+									value={this.state.userReview.rating}
 									name="rating"
 								/>
 							</Col>
@@ -78,7 +113,7 @@ export default class ReviewModal extends Component {
 								as="textarea"
 								rows={4}
 								ref={(e) => (this.comments = e)}
-								value={this.state.review.comments}
+								value={this.state.userReview.comment}
 								onChange={this.handleCommentsChange}
 							/>
 						</Row>
