@@ -6,7 +6,7 @@ const SearchPage = ({ searchText, movies }) => {
 	return (
 		<Container className="mt-5">
 			{movies === null ? (
-				<Row className="text-muted text-center h4 justify-content-center">Search found no results</Row>
+				<Row className="text-muted text-center h4 justify-content-center" />
 			) : (
 				<Container>
 					<Row className="text-muted text-center h4 justify-content-center">

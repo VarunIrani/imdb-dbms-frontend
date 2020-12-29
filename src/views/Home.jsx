@@ -1,16 +1,32 @@
 import React, { Component } from 'react';
-import MovieCards from '../components/movie/MovieCards';
+import AllMovies from '../components/movie/AllMovies';
+import TopRated from '../components/movie/TopRated';
+
 import { Container, Row } from 'react-bootstrap';
 
 export default class Home extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			movies: null
+			movies: null,
+			topRated: null
 		};
 	}
 
 	componentDidMount() {
+		fetch(`https://mesmovies.herokuapp.com/top-rated`, {
+			mode: 'cors',
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				this.setState({
+					topRated: res
+				});
+			});
 		fetch(`https://mesmovies.herokuapp.com/get-movie`, {
 			mode: 'cors',
 			method: 'GET',
@@ -27,13 +43,18 @@ export default class Home extends Component {
 	}
 
 	render() {
-		return this.state.movies ? (
-			<MovieCards movies={this.state.movies} />
+		return this.state.movies && this.state.topRated ? (
+			<Container fluid>
+				<Row>
+					<AllMovies movies={this.state.movies} />
+				</Row>
+				<Row className="mt-3">
+					<TopRated movies={this.state.topRated} />
+				</Row>
+			</Container>
 		) : (
 			<Container>
-				<Row>
-					<h2>Loading...</h2>
-				</Row>
+				<h2>Loading...</h2>
 			</Container>
 		);
 	}
