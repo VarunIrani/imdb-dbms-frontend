@@ -27,7 +27,7 @@ class RatingCircle extends Component {
           fill={textColor}
           fontSize={textSize}
         >
-          {rating}
+          {rating.toFixed(1)}
         </text>}
         <circle
           r={radius}
