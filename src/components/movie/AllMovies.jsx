@@ -34,17 +34,15 @@ class AllMovies extends Component {
 		super(props);
 		this.state = {
 			movie: null,
-			trailerShow: false
+			trailerShow: false,
+			result:null
 		};
 		this.onTrailerHide = this.onTrailerHide.bind(this);
 	}
 
-	onTrailerHide = (movie) => {
-		this.setState({ trailerShow: !this.state.trailerShow, movie });
-	};
-
-	render() {
+	componentDidMount(){
 		const movies = this.props.movies;
+		console.log('len is '+this.props.movies)
 		const n = 4;
 		const result = new Array(Math.ceil(movies.length / n)).fill().map((_) => movies.splice(0, n));
 		if (result[result.length - 1] !== undefined) {
@@ -52,6 +50,16 @@ class AllMovies extends Component {
 				result[result.length - 1].push('N');
 			}
 		}
+		this.setState({result:result})
+	}
+
+	onTrailerHide = (movie) => {
+		this.setState({ trailerShow: !this.state.trailerShow, movie });
+	};
+
+	render() {
+		
+		const result = this.state.result
 
 		return (
 			<React.Fragment>
