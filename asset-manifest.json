@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/imdb-dbms-frontend/static/css/main.a4b53d6c.chunk.css",
-    "main.js": "/imdb-dbms-frontend/static/js/main.aaf80438.chunk.js",
-    "main.js.map": "/imdb-dbms-frontend/static/js/main.aaf80438.chunk.js.map",
+    "main.js": "/imdb-dbms-frontend/static/js/main.6365ea5d.chunk.js",
+    "main.js.map": "/imdb-dbms-frontend/static/js/main.6365ea5d.chunk.js.map",
     "runtime-main.js": "/imdb-dbms-frontend/static/js/runtime-main.2bbf7219.js",
     "runtime-main.js.map": "/imdb-dbms-frontend/static/js/runtime-main.2bbf7219.js.map",
     "static/css/2.c6bd5319.chunk.css": "/imdb-dbms-frontend/static/css/2.c6bd5319.chunk.css",
@@ -19,6 +19,6 @@
     "static/css/2.c6bd5319.chunk.css",
     "static/js/2.0e43e2bb.chunk.js",
     "static/css/main.a4b53d6c.chunk.css",
-    "static/js/main.aaf80438.chunk.js"
+    "static/js/main.6365ea5d.chunk.js"
   ]
 }
