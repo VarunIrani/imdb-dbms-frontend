@@ -35,12 +35,12 @@ class TopRated extends Component {
 		this.state = {
 			movie: null,
 			trailerShow: false,
-			result:null
+			result: null
 		};
 		this.onTrailerHide = this.onTrailerHide.bind(this);
 	}
 
-	componentDidMount(){
+	componentDidMount() {
 		const movies = this.props.movies;
 		const n = 4;
 		const result = new Array(Math.ceil(movies.length / n)).fill().map((_) => movies.splice(0, n));
@@ -49,7 +49,7 @@ class TopRated extends Component {
 				result[result.length - 1].push('N');
 			}
 		}
-		this.setState({result:result})
+		this.setState({ result: result });
 	}
 
 	onTrailerHide(movie) {
@@ -58,7 +58,7 @@ class TopRated extends Component {
 	}
 
 	render() {
-		const result = this.state.result
+		const result = this.state.result;
 
 		return (
 			<React.Fragment>
@@ -99,7 +99,7 @@ class TopRated extends Component {
 																	<React.Fragment>
 																		<FontAwesomeIcon icon={faStar} style={{ color: COLORS.primary }} />
 																		<Card.Subtitle className="text-black p-0 m-0 pl-2">
-																			{movie.rating}
+																			{parseFloat(movie.rating).toFixed(1)}
 																		</Card.Subtitle>{' '}
 																	</React.Fragment>
 																) : (
