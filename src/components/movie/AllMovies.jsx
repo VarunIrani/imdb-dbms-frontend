@@ -42,7 +42,6 @@ class AllMovies extends Component {
 
 	componentDidMount() {
 		const movies = this.props.movies;
-		console.log('len is ' + this.props.movies);
 		const n = 4;
 		const result = new Array(Math.ceil(movies.length / n)).fill().map((_) => movies.splice(0, n));
 		if (result[result.length - 1] !== undefined) {
@@ -89,7 +88,7 @@ class AllMovies extends Component {
 											) : (
 												<Card key={j}>
 													<Link to={`/movie?title=${movie.title}`}>
-														<Card.Img variant="top" src={movie.poster} />
+														<Card.Img variant="top" src={movie.poster} className="movie-card-img" />
 													</Link>
 													<Card.Body>
 														<Container>
@@ -121,6 +120,7 @@ class AllMovies extends Component {
 																	onClick={() => {
 																		this.onTrailerHide(movie);
 																	}}
+																	id="watch-trailer-button"
 																>
 																	Watch Trailer
 																</Button>

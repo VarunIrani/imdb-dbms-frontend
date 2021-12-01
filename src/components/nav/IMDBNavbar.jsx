@@ -107,6 +107,7 @@ class IMDBNavbar extends Component {
 					show={this.state.showAddMovie}
 				/>
 				<AuthModal
+					id='auth-modal'
 					onHide={() => {
 						this.setState({ showLogin: !this.state.showLogin });
 						this.updateNavbar();
@@ -173,6 +174,7 @@ class IMDBNavbar extends Component {
 
 								{this.state.initials === null ? (
 									<Button
+										id='login-modal-button'
 										style={{
 											width: '20%',
 											backgroundColor: COLORS.primary,
@@ -188,6 +190,7 @@ class IMDBNavbar extends Component {
 									</Button>
 								) : (
 									<Button
+										id='logout-button'
 										style={{
 											width: '20%',
 											backgroundColor: COLORS.primary,

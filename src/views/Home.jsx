@@ -54,7 +54,7 @@ export default class Home extends Component {
 			</Container>
 		) : (
 			<Container>
-				<h2>Loading...</h2>
+				<h2 id='home-loading'>Loading...</h2>
 			</Container>
 		);
 	}

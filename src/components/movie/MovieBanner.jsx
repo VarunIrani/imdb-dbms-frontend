@@ -68,7 +68,7 @@ class MovieBanner extends React.Component {
 
 	setReview(review) {
 		if (this.state.review._id === null) {
-			console.log('New');
+
 			fetch(`https://mesmovies.herokuapp.com/review`, {
 				method: 'POST',
 				mode: 'cors',
@@ -79,13 +79,13 @@ class MovieBanner extends React.Component {
 			})
 				.then((res) => res.json())
 				.then(
-					function(res) {
+					function(_) {
 						this.setState({ review });
 						window.location.reload();
 					}.bind(this)
 				);
 		} else {
-			console.log('Update');
+
 			fetch(`https://mesmovies.herokuapp.com/update-review`, {
 				method: 'POST',
 				mode: 'cors',
@@ -96,7 +96,7 @@ class MovieBanner extends React.Component {
 			})
 				.then((res) => res.json())
 				.then(
-					function(res) {
+					function(_) {
 						this.setState({ review });
 						window.location.reload();
 					}.bind(this)
@@ -109,7 +109,7 @@ class MovieBanner extends React.Component {
 			method: 'DELETE',
 			mode: 'cors'
 		}).then(
-			function(res) {
+			function(_) {
 				this.setState({ review: { _id: null } });
 				window.location.reload();
 			}.bind(this)
@@ -231,6 +231,7 @@ class MovieBanner extends React.Component {
 											<Row className="justify-content-center">
 												{this.state.user ? (
 													<Button
+														id='write-review-button'
 														startIcon={<FontAwesomeIcon icon={faComment} />}
 														size="large"
 														variant="contained"

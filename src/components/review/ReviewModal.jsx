@@ -32,7 +32,7 @@ export default class ReviewModal extends Component {
 		let review = this.state.userReview;
 		if (review.rating > 0) {
 			review.date = new Date(Date.now()).toLocaleDateString();
-			console.log(review);
+
 			this.props.setReview(review);
 			this.props.onHide();
 		} else {
@@ -98,7 +98,10 @@ export default class ReviewModal extends Component {
 								<Rating
 									size="large"
 									max={10}
-									onChange={this.setRating}
+									onChange={function(e){
+										console.log(e.target)
+										this.setRating()
+									}.bind(this)}
 									value={this.state.userReview.rating}
 									name="rating"
 								/>
@@ -110,6 +113,7 @@ export default class ReviewModal extends Component {
 						</Row>
 						<Row>
 							<Form.Control
+								id='comment-box'
 								as="textarea"
 								rows={4}
 								ref={(e) => (this.comments = e)}
@@ -119,6 +123,7 @@ export default class ReviewModal extends Component {
 						</Row>
 						<Row className="justify-content-end mt-3">
 							<Button
+								id='submit-review'
 								disableElevation
 								variant="contained"
 								style={{ background: COLORS.primary, color: COLORS.textOnPrimary }}

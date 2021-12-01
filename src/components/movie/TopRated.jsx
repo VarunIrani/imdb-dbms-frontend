@@ -53,7 +53,7 @@ class TopRated extends Component {
 	}
 
 	onTrailerHide(movie) {
-		console.log({ movies: this.props.movies });
+
 		this.setState({ trailerShow: !this.state.trailerShow, movie });
 	}
 

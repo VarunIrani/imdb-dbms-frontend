@@ -3,7 +3,7 @@ import { Container, Form, Row, Col, Button, Alert } from 'react-bootstrap';
 import { COLORS } from '../../colors';
 
 const Login = () => {
-	const [ alert, setAlert ] = useState(false);
+	const [ alert, setAlert ] = useState(null);
 	const [ state, setState ] = useState({
 		name: '',
 		email: '',
@@ -30,10 +30,11 @@ const Login = () => {
 			.then((res) => res.json())
 			.then((res) => {
 				if (res.status >= 200 && res.status < 205) {
-					setAlert(true);
+					setAlert({success: true});
 					setLocalData(res);
 					window.location.reload();
 				} else {
+					setAlert({success: false});
 				}
 			});
 	};
@@ -51,8 +52,10 @@ const Login = () => {
 
 	return (
 		<React.Fragment>
-			{alert ? (
-				<Alert variant="success">You are logged in successfully!</Alert>
+			{alert !== null ? (
+				<Alert id="auth-alert" variant={alert.success ? "success" : "danger"}>{
+					alert.success ? "You are logged in successfully!" : "Invalid Credentials"
+				}</Alert>
 			) : (
 				<Container className="justify-content-center">
 					<Row>
@@ -62,6 +65,7 @@ const Login = () => {
 								onChange={(e) => handleChange('email', e)}
 								placeholder="Enter email"
 								defaultValue={state.email}
+								id="email-input"
 							/>
 						</Col>
 					</Row>
@@ -69,6 +73,7 @@ const Login = () => {
 						<Col>
 							<Form.Label>Password</Form.Label>
 							<Form.Control
+								id="password-input"
 								type="password"
 								onChange={(e) => handleChange('password', e)}
 								placeholder="Enter password"
@@ -78,6 +83,7 @@ const Login = () => {
 					</Row>
 					<Row className="justify-content-end mt-3">
 						<Button
+							id="submit-login"
 							disableElevation
 							variant="contained"
 							style={{ background: COLORS.primary, color: COLORS.textOnPrimary }}
