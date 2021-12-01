@@ -1,24 +1,24 @@
 {
   "files": {
     "main.css": "/imdb-dbms-frontend/static/css/main.a4b53d6c.chunk.css",
-    "main.js": "/imdb-dbms-frontend/static/js/main.6365ea5d.chunk.js",
-    "main.js.map": "/imdb-dbms-frontend/static/js/main.6365ea5d.chunk.js.map",
-    "runtime-main.js": "/imdb-dbms-frontend/static/js/runtime-main.2bbf7219.js",
-    "runtime-main.js.map": "/imdb-dbms-frontend/static/js/runtime-main.2bbf7219.js.map",
-    "static/css/2.c6bd5319.chunk.css": "/imdb-dbms-frontend/static/css/2.c6bd5319.chunk.css",
-    "static/js/2.0e43e2bb.chunk.js": "/imdb-dbms-frontend/static/js/2.0e43e2bb.chunk.js",
-    "static/js/2.0e43e2bb.chunk.js.map": "/imdb-dbms-frontend/static/js/2.0e43e2bb.chunk.js.map",
+    "main.js": "/imdb-dbms-frontend/static/js/main.a2eed204.chunk.js",
+    "main.js.map": "/imdb-dbms-frontend/static/js/main.a2eed204.chunk.js.map",
+    "runtime-main.js": "/imdb-dbms-frontend/static/js/runtime-main.4d9ee7ce.js",
+    "runtime-main.js.map": "/imdb-dbms-frontend/static/js/runtime-main.4d9ee7ce.js.map",
+    "static/css/2.1975b348.chunk.css": "/imdb-dbms-frontend/static/css/2.1975b348.chunk.css",
+    "static/js/2.20b0dca3.chunk.js": "/imdb-dbms-frontend/static/js/2.20b0dca3.chunk.js",
+    "static/js/2.20b0dca3.chunk.js.map": "/imdb-dbms-frontend/static/js/2.20b0dca3.chunk.js.map",
     "index.html": "/imdb-dbms-frontend/index.html",
-    "static/css/2.c6bd5319.chunk.css.map": "/imdb-dbms-frontend/static/css/2.c6bd5319.chunk.css.map",
+    "static/css/2.1975b348.chunk.css.map": "/imdb-dbms-frontend/static/css/2.1975b348.chunk.css.map",
     "static/css/main.a4b53d6c.chunk.css.map": "/imdb-dbms-frontend/static/css/main.a4b53d6c.chunk.css.map",
-    "static/js/2.0e43e2bb.chunk.js.LICENSE.txt": "/imdb-dbms-frontend/static/js/2.0e43e2bb.chunk.js.LICENSE.txt",
+    "static/js/2.20b0dca3.chunk.js.LICENSE.txt": "/imdb-dbms-frontend/static/js/2.20b0dca3.chunk.js.LICENSE.txt",
     "static/media/styles.css": "/imdb-dbms-frontend/static/media/revicons.e8746a62.woff"
   },
   "entrypoints": [
-    "static/js/runtime-main.2bbf7219.js",
-    "static/css/2.c6bd5319.chunk.css",
-    "static/js/2.0e43e2bb.chunk.js",
+    "static/js/runtime-main.4d9ee7ce.js",
+    "static/css/2.1975b348.chunk.css",
+    "static/js/2.20b0dca3.chunk.js",
     "static/css/main.a4b53d6c.chunk.css",
-    "static/js/main.6365ea5d.chunk.js"
+    "static/js/main.a2eed204.chunk.js"
   ]
 }
